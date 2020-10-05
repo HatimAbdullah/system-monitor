@@ -1,4 +1,5 @@
 #include <string>
+#include <iomanip>
 #include "format.h"
 
 #define AN_HOUR 3600
@@ -6,10 +7,6 @@
 
 using std::string;
 
-// TODO: Complete this helper function
-// INPUT: Long int measuring seconds
-// OUTPUT: HH:MM:SS
-// REMOVE: [[maybe_unused]] once you define the function
 string Format::ElapsedTime(long totaltime) { 
     int hours;
     int minutes;
@@ -19,7 +16,14 @@ string Format::ElapsedTime(long totaltime) {
     seconds = totaltime % AN_HOUR;
     minutes = seconds / A_MINUTE;
     seconds %= A_MINUTE;
+    
+    std::stringstream stream;
+    stream << std::setfill('0') << std::setw(2) << hours << ":";
+    stream << std::setfill('0') << std::setw(2) << minutes << ":";
+    stream << std::setfill('0') << std::setw(2) << seconds;
 
-    string timepassed = std::to_string(hours) + ":" + std::to_string(minutes) + ":" + std::to_string(seconds); 
+    string timepassed = stream.str();
+
+    //string timepassed = std::to_string(hours) + ":" + std::to_string(minutes) + ":" + std::to_string(seconds); 
     return timepassed; 
 }
