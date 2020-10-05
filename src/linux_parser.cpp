@@ -36,13 +36,13 @@ string LinuxParser::OperatingSystem() {
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::Kernel() {
-  string os, kernel;
+  string os, key, kernel;
   string line;
   std::ifstream stream(kProcDirectory + kVersionFilename);
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
-    linestream >> os >> kernel;
+    linestream >> os >> key >> kernel;
   }
   return kernel;
 }
@@ -81,7 +81,7 @@ float LinuxParser::MemoryUtilization() {
     std::getline(filestream, line);
     std::istringstream secondlinestream(line);
     secondlinestream >> name >> free;
-    memoryutilization = std::stof(total) / std::stof(free);
+    memoryutilization = (std::stof(free) / std::stof(total));
   }
 
   return memoryutilization; 
@@ -98,7 +98,7 @@ long LinuxParser::UpTime() {
     std::getline(filestream, line);
     std::istringstream linestream(line);
     linestream >> uptimeinseconds;
-    uptime = (std::stol(uptimeinseconds) / 60.0) / 60;
+    uptime = std::stol(uptimeinseconds);
   }
 
   return uptime; 
@@ -331,6 +331,6 @@ long LinuxParser::UpTime(int pid) {
     count++;
     }
   }
-  uptime = UpTime() - ( starttime / tkspersec );
+  uptime = UpTime() - ( (long) starttime / tkspersec );
   return uptime; 
 }
